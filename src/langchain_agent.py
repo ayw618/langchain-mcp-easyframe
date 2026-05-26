@@ -11,21 +11,25 @@ import json
 client = MultiServerMCPClient(
     {
         "local":{
-            "transport": "http",  # 本地子进程通信
-            # "command": "python",
-            # # local_mcp_server.py 文件的绝对路径
-            # "args": ["E:/Projects/RAG/RAG/agent_demo/src/local_mcp_server.py"],
+            # 本地：本地MCP工具服务器
+            "transport": "http",  
             "url": "http://127.0.0.1:9000/mcp",
+            # "transport": "stdio",
+            # "command": "python",  # 本地子进程通信，新手不推荐，可能导致系统卡死（你的电脑卡死）;
+            # # local_mcp_server.py 文件的绝对路径
+            # "args": ["/root/langchain-mcp-easyframe/src/local_mcp_server.py"],
         },
         # "amap": {
+        #     # 远程：高德地图工具
         #     "transport": "http",  # 基于 HTTP 的远程服务器
         #     # amap 服务器的 URL
-        #     "url": "https://mcpmarket.cn/mcp/1211afc8fdf0663a3f4f7b9c",
+        #     "url": "https://mcpmarket.cn/mcp/xxx",
         # },
         # "12306": {
+        #     # 远程：12306工具
         #     "transport": "http",  # 基于 HTTP 的远程服务器
         #     # 12306 服务器的 URL
-        #     "url": "https://mcpmarket.cn/mcp/6f8c24fd3a649fd36e813eb1",
+        #     "url": "https://mcpmarket.cn/mcp/xxx",
         # }
     }
 )
