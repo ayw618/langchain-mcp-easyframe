@@ -82,3 +82,50 @@ client = MultiServerMCPClient(
     }
 )
 ```
+
+## MCP 客户端
+当前代码里将MCP客户端融入到了`src/langchain_agent.py`文件里。
+你可以在`client`变量里配置你的MCP服务器地址。
+例如：
+```python
+client = MultiServerMCPClient(
+    {
+        "local":{
+            # 本地：本地MCP工具服务器
+            "transport": "http",  
+            "url": "http://127.0.0.1:9000/mcp",
+            # "transport": "stdio",
+            # "command": "python",  # 本地子进程通信，新手不推荐，可能导致系统卡死（你的电脑卡死）;
+            # # local_mcp_server.py 文件的绝对路径
+            # "args": ["/root/langchain-mcp-easyframe/src/local_mcp_server.py"],
+        },
+    }
+)
+```
+
+如果你需要将Client分离，你可以将`client`变量从`langchain_agent.py`里提取出来，放到`src/mcp_client.py`里。
+```python
+# mcp_client.py
+import asyncio
+from fastmcp import Client, FastMCP
+import json
+client = MultiServerMCPClient(
+    {
+        "local":{
+            # 本地：本地MCP工具服务器
+            "transport": "http",  
+            "url": "http://127.0.0.1:9000/mcp",
+            # "transport": "stdio",
+            # "command": "python",  # 本地子进程通信，新手不推荐，可能导致系统卡死（你的电脑卡死）;
+            # # local_mcp_server.py 文件的绝对路径
+            # "args": ["/root/langchain-mcp-easyframe/src/local_mcp_server.py"],
+        },
+    }
+)
+```
+如果你不了解`MultiServerMCPClient`的配置，你可以参考[FastMCP文档](https://fastmcp.wiki/zh/getting-started/welcome/).
+或者使用下面的方式创建客户端（只需要配置MCP服务器地址即可）：
+```python
+client_local = Client("agent_demo/src/local_mcp_server.py") # 自动配置 transport 等参数
+client_remote = Client("https://mcpmarket.cn/mcp/1211afc8fdf0663a3f4f7b9c") # 自动配置 transport 等参数
+```
